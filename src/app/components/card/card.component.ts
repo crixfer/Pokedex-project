@@ -24,6 +24,11 @@ export class CardComponent implements OnInit {
   commService = inject(PokemonCommunicationService);
   router = inject(Router);
 
+  showTypeMenu = false;
+  pokemonTypes: any[] = [];
+  selectedType: string | null = null;
+  isClosingTypeMenu = false;
+
   ngOnInit(): void {
     this.commService.randomPokemon$.subscribe(() => {
       this.showOrdered = false;
@@ -116,5 +121,73 @@ export class CardComponent implements OnInit {
 
   randomPokemonImg() {
     this.commService.triggerRandomPokemon();
+  }
+
+  toggleTypeMenu() {
+    this.showTypeMenu = !this.showTypeMenu;
+    if (this.showTypeMenu && this.pokemonTypes.length === 0) {
+      this.fetchPokemonTypes();
+    }
+  }
+
+  fetchPokemonTypes() {
+    this.pokemonService.getAllTypes().subscribe((res: any) => {
+      this.pokemonTypes = res.results;
+    });
+  }
+
+  selectType(type: any) {
+    this.selectedType = type.name;
+    this.showTypeMenu = false;
+    this.page = 0;
+    this.loadPokemonsByType(type.name);
+  }
+
+  loadPokemonsByType(typeName: string) {
+    this.loading = true;
+    this.pokemonService.getPokemonsByType(typeName).subscribe((res: any) => {
+      const pokemonEntries = res.pokemon.slice(0, this.pageSize);
+      const requests = pokemonEntries.map((entry: any) => {
+        const pokeName = entry.pokemon.name;
+        return this.pokemonService
+          .getPokemonInfo(pokeName)
+          .toPromise()
+          .then((pokemon) => {
+            if (!pokemon) return undefined;
+            return this.pokemonService
+              .getPokemonSpecies(pokemon.id)
+              .toPromise()
+              .then((species) => {
+                const entry = species.flavor_text_entries.find(
+                  (e: any) => e.language.name === 'es'
+                );
+                (pokemon as any).description = entry ? entry.flavor_text : '';
+                return pokemon;
+              });
+          });
+      });
+      Promise.all(requests).then((results) => {
+        this.pokemons = results.filter((p): p is Pokemon => p !== undefined);
+        this.loading = false;
+        this.showOrdered = false;
+      });
+    });
+  }
+
+  onTypeMenuAnimationEnd() {
+    if (this.isClosingTypeMenu) {
+      this.isClosingTypeMenu = false;
+      this.showTypeMenu = false;
+    }
+  }
+
+  closeTypeMenu() {
+    this.isClosingTypeMenu = true;
+    // El cierre real ocurre en onTypeMenuAnimationEnd
+  }
+
+  // Para *ngFor con trackBy
+  trackByIndex(index: number, item: any) {
+    return index;
   }
 }

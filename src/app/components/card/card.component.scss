@@ -144,3 +144,163 @@
   background-color: #9eb7b8;
   color: #333;
 }
+
+.type-menu-overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50vh;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: slideDown 0.3s cubic-bezier(0.4, 2, 0.6, 1);
+  &.slide-up {
+    animation: slideUp 0.3s cubic-bezier(0.4, 2, 0.6, 1) forwards;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.type-menu-content {
+  width: 100vw;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 2rem 2rem 0 0;
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.type-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.type-btn {
+  background: #eee;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.type-btn:hover {
+  background: #ffd700;
+  color: #222;
+}
+
+// Colores por tipo
+.type-btn.fire {
+  background: #fd7d24;
+  color: #fff;
+}
+.type-btn.water {
+  background: #4592c4;
+  color: #fff;
+}
+.type-btn.grass {
+  background: #9bcc50;
+  color: #fff;
+}
+.type-btn.electric {
+  background: #eed535;
+  color: #333;
+}
+.type-btn.psychic {
+  background: #f366b9;
+  color: #fff;
+}
+.type-btn.ice {
+  background: #51c4e7;
+  color: #333;
+}
+.type-btn.dragon {
+  background: #53a4cf;
+  color: #fff;
+}
+.type-btn.dark {
+  background: #707070;
+  color: #fff;
+}
+.type-btn.fairy {
+  background: #fdb9e9;
+  color: #333;
+}
+.type-btn.normal {
+  background: #a4acaf;
+  color: #fff;
+}
+.type-btn.fighting {
+  background: #d56723;
+  color: #fff;
+}
+.type-btn.flying {
+  background: #3dc7ef;
+  color: #333;
+}
+.type-btn.poison {
+  background: #b97fc9;
+  color: #fff;
+}
+.type-btn.ground {
+  background: #df9e2f;
+  color: #fff;
+}
+.type-btn.rock {
+  background: #a38c21;
+  color: #fff;
+}
+.type-btn.bug {
+  background: #729f3f;
+  color: #fff;
+}
+.type-btn.ghost {
+  background: #7b62a3;
+  color: #fff;
+}
+.type-btn.steel {
+  background: #9eb7b8;
+  color: #333;
+}
+
+.close-type-menu {
+  margin-top: 1rem;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.close-type-menu:hover {
+  background: #c0392b;
+}

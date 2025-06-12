@@ -74,41 +74,69 @@
       <path d="M15 12h6" stroke-width="2"></path>
     </svg>
   </button>
-  <button type="button" class="botones btn btn-secondary btn-lg mt-5">
+  <button
+    type="button"
+    class="botones btn btn-secondary btn-lg mt-5"
+    (click)="toggleTypeMenu()"
+  >
     Tipos de Pokémons
   </button>
+</div>
+
+<!-- MENU DESPLEGABLE DE TIPOS -->
+<div
+  *ngIf="showTypeMenu || isClosingTypeMenu"
+  class="type-menu-overlay"
+  [ngClass]="{ 'slide-up': isClosingTypeMenu }"
+  (animationend)="onTypeMenuAnimationEnd()"
+>
+  <div class="type-menu-content">
+    <h3>Selecciona un tipo de Pokémon</h3>
+    <div class="type-list">
+      <ng-container *ngFor="let type of pokemonTypes">
+        <button
+          class="type-btn {{ type.name }}"
+          (click)="selectType(type)"
+          *ngIf="type.name !== 'stellar' && type.name !== 'unknown'"
+        >
+          {{ type.name }}
+        </button>
+      </ng-container>
+    </div>
+    <button class="close-type-menu" (click)="closeTypeMenu()">Cerrar</button>
+  </div>
 </div>
 
 <!-- CARTAS -->
 
 <div class="d-flex justify-content-center">
   <div class="row">
-    @for (poke of pokemons; track $index) {
-
-    <div class="mt-3">
-      <div class="card">
-        <img
-          [src]="poke.sprites.front_default"
-          class="card-img-top"
-          alt=" {{ poke.name }} "
-        />
-        <div class="card-body">
-          <h4 class="card-title">{{ poke.name }}</h4>
-          <p class="card-text">{{ poke.description }}</p>
-
-          <div>
-            <span
-              *ngFor="let type of poke.types"
-              class="badge me-1"
-              [ngClass]="'bg-' + type.type.name"
-            >
-              {{ type.type.name }}
-            </span>
+    <ng-container
+      *ngFor="let poke of pokemons; let i = index; trackBy: trackByIndex"
+    >
+      <div class="mt-3">
+        <div class="card">
+          <img
+            [src]="poke.sprites.front_default"
+            class="card-img-top"
+            alt="{{ poke.name }}"
+          />
+          <div class="card-body">
+            <h4 class="card-title">{{ poke.name }}</h4>
+            <p class="card-text">{{ poke.description }}</p>
+            <div>
+              <span
+                *ngFor="let type of poke.types"
+                class="badge me-1"
+                [ngClass]="'bg-' + type.type.name"
+              >
+                {{ type.type.name }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    }
+    </ng-container>
   </div>
 </div>
 }
@@ -138,7 +166,7 @@
   </button>
   } @if (!showOrdered) {
   <button
-    class="btn btn-warning"
+    class="btn btn-warning mb-5"
     (click)="moreRandomPokemons()"
     [disabled]="loading"
   >

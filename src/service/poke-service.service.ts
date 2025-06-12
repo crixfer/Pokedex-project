@@ -30,4 +30,14 @@ export class PokeServiceService {
       `https://pokeapi.co/api/v2/pokemon-species/${idOrName}`
     );
   }
+
+  // Obtener todos los tipos de Pokémon
+  getAllTypes(): Observable<any> {
+    return this.http.get('https://pokeapi.co/api/v2/type');
+  }
+
+  // Obtener pokémon por tipo
+  getPokemonsByType(type: string): Observable<any> {
+    return this.http.get(`https://pokeapi.co/api/v2/type/${type}`);
+  }
 }
