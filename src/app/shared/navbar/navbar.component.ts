@@ -18,4 +18,10 @@ export class NavbarComponent {
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  onSearch(name: string) {
+    if (name && name.trim()) {
+      this.commService.triggerSearchPokemon(name.trim());
+    }
+  }
 }

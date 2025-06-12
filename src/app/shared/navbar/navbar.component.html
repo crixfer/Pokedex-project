@@ -96,8 +96,18 @@
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <!-- FORM PARA BUSCAR POKEMONS -->
+      <form
+        class="d-flex"
+        role="search"
+        (submit)="
+          onSearch(searchInput.value);
+          searchInput.value = '';
+          $event.preventDefault()
+        "
+      >
         <input
+          #searchInput
           class="form-control me-2"
           type="search"
           placeholder="Buscar un Pokémon"

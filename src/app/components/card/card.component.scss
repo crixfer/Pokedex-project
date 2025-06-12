@@ -151,7 +151,9 @@
   right: 0;
   bottom: 0;
   height: 50vh;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   align-items: flex-end;
@@ -299,7 +301,7 @@
   padding: 0.5rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.7s;
 }
 .close-type-menu:hover {
   background: #c0392b;

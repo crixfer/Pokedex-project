@@ -14,7 +14,12 @@ export class PokeServiceService {
   private randomPokeApi = `https://pokeapi.co/api/v2/pokemon/${this.randomId}`;
   private pokeInfo = 'https://pokeapi.co/api/v2/pokemon/';
 
-  //METHODS
+  //METHODS*****************
+
+  // SEARCH
+  getPokemonByName(name: string) {
+    return this.http.get(`${this.pokeInfo}/${name.toLowerCase()}`);
+  }
 
   //RANDOM
   getRandomPokemons(): Observable<any> {

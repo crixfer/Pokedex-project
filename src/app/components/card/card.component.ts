@@ -42,44 +42,42 @@ export class CardComponent implements OnInit {
       }
     });
 
+    this.commService.searchPokemon$.subscribe((name: string) => {
+      this.searchPokemonByName(name);
+    });
+
     this.loadPokemons();
   }
 
-  loadPokemons(): void {
+  async loadPokemons(): Promise<void> {
     this.loading = true;
     const start = this.page * this.pageSize + 1;
     const end = start + this.pageSize;
-    const requests = [];
+    const pokemons: Pokemon[] = [];
+
     for (let i = start; i < end; i++) {
-      requests.push(
-        this.pokemonService
-          .getPokemonInfo(i)
-          .toPromise()
-          .then((pokemon) =>
-            this.pokemonService
-              .getPokemonSpecies(i)
-              .toPromise()
-              .then((species) => {
-                const entry = species.flavor_text_entries.find(
-                  (e: any) => e.language.name === 'es'
-                );
-                (pokemon as any).description = entry ? entry.flavor_text : '';
-                return pokemon;
-              })
-          )
-      );
-    }
-    Promise.all(requests).then((results) => {
-      // Si es la primera página, reemplaza el array. Si es "Cargar más", concatena.
-      if (this.page === 0) {
-        this.pokemons = results.filter((p): p is Pokemon => p !== undefined);
-      } else {
-        this.pokemons = this.pokemons.concat(
-          results.filter((p): p is Pokemon => p !== undefined)
+      try {
+        const pokemon = await this.pokemonService.getPokemonInfo(i).toPromise();
+        if (!pokemon) continue;
+        const species = await this.pokemonService
+          .getPokemonSpecies(i)
+          .toPromise();
+        const entry = species.flavor_text_entries.find(
+          (e: any) => e.language.name === 'es'
         );
+        (pokemon as any).description = entry ? entry.flavor_text : '';
+        pokemons.push(pokemon);
+      } catch (e) {
+        // Si falla uno, simplemente lo omite
       }
-      this.loading = false;
-    });
+    }
+
+    if (this.page === 0) {
+      this.pokemons = pokemons;
+    } else {
+      this.pokemons = this.pokemons.concat(pokemons);
+    }
+    this.loading = false;
   }
 
   loadMore(): void {
@@ -189,5 +187,33 @@ export class CardComponent implements OnInit {
   // Para *ngFor con trackBy
   trackByIndex(index: number, item: any) {
     return index;
+  }
+
+  //SEARCHING POKEMONS
+  searchPokemonByName(name: string): void {
+    this.loading = true;
+    this.pokemonService.getPokemonInfo(name.toLowerCase()).subscribe({
+      next: (pokemon) => {
+        this.pokemonService.getPokemonSpecies(pokemon.id).subscribe({
+          next: (species) => {
+            const entry = species.flavor_text_entries.find(
+              (e: any) => e.language.name === 'es'
+            );
+            (pokemon as any).description = entry ? entry.flavor_text : '';
+            this.pokemons = [pokemon];
+            this.loading = false;
+            this.showOrdered = false;
+          },
+          error: () => {
+            this.loading = false;
+          },
+        });
+      },
+      error: () => {
+        this.pokemons = [];
+        this.loading = false;
+        // Aquí puedes mostrar un mensaje de "Pokémon no encontrado"
+      },
+    });
   }
 }
