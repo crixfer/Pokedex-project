@@ -1,0 +1,146 @@
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18.5rem, 1fr));
+  gap: 2rem;
+  width: 100%;
+  justify-items: center;
+  align-items: start;
+  padding: 4rem;
+}
+
+.col-3 {
+  // flex: 0 0 33.3333%;
+  // max-width: 33.3333%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0; // Espacio vertical entre filas
+  box-sizing: border-box;
+}
+
+.botones {
+  width: 18rem;
+  margin: 0 2.8rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.card {
+  width: 100%;
+  max-width: 18.5rem;
+  min-width: 18.5rem;
+  margin: 0 auto;
+  min-height: 420px; /* Ajusta según el contenido */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s cubic-bezier(0.4, 2, 0.6, 1), box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 2;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  background-image: url("/assets/pokegrass.png");
+}
+
+.card-text {
+  text-align: justify;
+}
+
+.card-img-top2 {
+  background-image: url("/assets/pokegrass.png");
+}
+
+.card.card-random {
+  max-width: 25rem;
+  min-width: 22rem;
+  min-height: 520px;
+  font-size: 1.15rem;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
+  /* Puedes ajustar estos valores a tu gusto */
+}
+
+.badge {
+  text-transform: capitalize;
+  width: 6rem;
+}
+
+//colores personalizados por tipos
+.badge.bg-fire {
+  background-color: #fd7d24;
+  color: #fff;
+}
+.badge.bg-water {
+  background-color: #4592c4;
+  color: #fff;
+}
+.badge.bg-grass {
+  background-color: #9bcc50;
+  color: #fff;
+}
+.badge.bg-electric {
+  background-color: #eed535;
+  color: #333;
+}
+.badge.bg-psychic {
+  background-color: #f366b9;
+  color: #fff;
+}
+.badge.bg-ice {
+  background-color: #51c4e7;
+  color: #333;
+}
+.badge.bg-dragon {
+  background-color: #53a4cf;
+  color: #fff;
+}
+.badge.bg-dark {
+  background-color: #707070;
+  color: #fff;
+}
+.badge.bg-fairy {
+  background-color: #fdb9e9;
+  color: #333;
+}
+.badge.bg-normal {
+  background-color: #a4acaf;
+  color: #fff;
+}
+.badge.bg-fighting {
+  background-color: #d56723;
+  color: #fff;
+}
+.badge.bg-flying {
+  background-color: #3dc7ef;
+  color: #333;
+}
+.badge.bg-poison {
+  background-color: #b97fc9;
+  color: #fff;
+}
+.badge.bg-ground {
+  background-color: #df9e2f;
+  color: #fff;
+}
+.badge.bg-rock {
+  background-color: #a38c21;
+  color: #fff;
+}
+.badge.bg-bug {
+  background-color: #729f3f;
+  color: #fff;
+}
+.badge.bg-ghost {
+  background-color: #7b62a3;
+  color: #fff;
+}
+.badge.bg-steel {
+  background-color: #9eb7b8;
+  color: #333;
+}
