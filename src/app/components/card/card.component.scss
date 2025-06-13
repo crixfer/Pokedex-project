@@ -53,11 +53,12 @@
 }
 
 .card-text {
+  margin-top: 1.5rem;
   text-align: justify;
 }
 
 .card-title {
-  margin: 0;
+  margin-top: 1rem;
 }
 
 .card-img-top2 {
@@ -65,7 +66,7 @@
 }
 
 .card.card-random {
-  max-width: 25rem;
+  // max-width: 25rem;
   min-width: 22rem;
   min-height: 520px;
   font-size: 1.15rem;

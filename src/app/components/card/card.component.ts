@@ -18,6 +18,7 @@ export class CardComponent implements OnInit {
   pageSize: number = 12;
   loading = false;
   showOrdered = true;
+  noPokemonFound = '';
 
   //POKEMON SERVICE
   pokemonService = inject(PokeServiceService);

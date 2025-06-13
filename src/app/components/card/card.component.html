@@ -148,7 +148,7 @@
 <!-- Button to load more -->
 <div class="d-flex justify-content-center">
   @if (showOrdered) {
-  <button class="btn btn-warning m-4" (click)="loadMore()" [disabled]="loading">
+  <button class="btn btn-warning m-5" (click)="loadMore()" [disabled]="loading">
     <!-- <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -212,7 +212,7 @@
   </button>
   } @if (!showOrdered) {
   <button
-    class="btn btn-warning mb-5"
+    class="btn btn-warning mb-5 mt-5"
     (click)="moreRandomPokemons()"
     [disabled]="loading"
   >
