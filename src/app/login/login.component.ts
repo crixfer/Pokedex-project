@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -16,18 +16,19 @@ export class LoginComponent {
   loginMessage: string = '';
   messageColor: string = '';
 
-  router = Inject(Router);
-  auth = Inject(AuthService);
+  router = inject(Router);
+  auth = inject(AuthService);
 
   onSubmit() {
     if (this.auth.authenticate(this.username, this.password)) {
+      localStorage.setItem('user', this.username); // Guarda el usuario en localStorage
       this.loginMessage = 'Acceso Satisfactorio!';
       this.messageColor = 'green';
       setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 2000);
+        this.router.navigate(['/home']); // Redirige al home
+      }, 1000);
     } else {
-      this.loginMessage = 'Credenciales Incorrectas!';
+      this.loginMessage = 'Credenciales incorrectas!';
       this.messageColor = 'red';
     }
   }

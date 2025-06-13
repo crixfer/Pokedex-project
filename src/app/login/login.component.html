@@ -42,7 +42,7 @@
                 id="exampleCheck1"
               />
               <label class="form-check-label" for="exampleCheck1"
-                >Check me out</label
+                >Recuérdame</label
               >
             </div>
 
@@ -75,13 +75,13 @@
                 <path d="M3 12h6" stroke-width="2"></path>
                 <path d="M15 12h6" stroke-width="2"></path>
               </svg>
-              Login
+              Iniciar Sesión
             </button>
           </div>
           <div class="login-msj d-flex justify-content-start w100">
-            <p class="text-secondary">
+            <p class="">
               Mensaje:
-              <span>
+              <span [style.color]="messageColor">
                 <i>{{ loginMessage }}</i>
               </span>
             </p>
