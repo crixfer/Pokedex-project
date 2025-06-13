@@ -29,6 +29,8 @@ export class CardComponent implements OnInit {
   selectedType: string | null = null;
   isClosingTypeMenu = false;
 
+  randomPokemonSprite: string | undefined; // Nueva propiedad para la sprite animada
+
   ngOnInit(): void {
     this.commService.randomPokemon$.subscribe(() => {
       this.showOrdered = false;
@@ -98,6 +100,14 @@ export class CardComponent implements OnInit {
         (pokemon as any).description = entry ? entry.flavor_text : '';
         //puedes mostrarlo en una carta especial. o reeplazar el primero;
         this.pokemons = [pokemon];
+
+        // Nueva lógica para la sprite animada
+        const animatedSprite =
+          pokemon.sprites.versions?.['generation-v']?.['black-white']?.animated
+            ?.front_default || pokemon.sprites.front_default; // fallback si no hay animado
+
+        // Asignar a la propiedad para usar en el template
+        this.randomPokemonSprite = animatedSprite;
       });
     });
   }

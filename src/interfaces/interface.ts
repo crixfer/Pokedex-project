@@ -3,10 +3,9 @@
 export interface Pokemon {
   name: string;
   id: number;
+
   //image
-  sprites: {
-    front_default: string;
-  };
+  sprites: PokemonSprites;
   //type
   types?: {
     type: {
@@ -21,4 +20,18 @@ export interface Pokemon {
   }[];
   //information
   description: string;
+}
+
+export interface PokemonSprites {
+  front_default: string;
+  versions?: {
+    'generation-v': {
+      'black-white': {
+        animated: {
+          front_default: string;
+        };
+      };
+    };
+    // Si quieres otras generaciones, añádelas aquí
+  };
 }
