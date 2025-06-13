@@ -1,11 +1,13 @@
 .row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18.5rem, 1fr));
+  // grid-template-columns: repeat(auto-fit, minmax(18.5rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
   gap: 2rem;
   width: 100%;
   justify-items: center;
   align-items: start;
   padding: 4rem;
+  max-width: calc(5 * 18.5rem + 4 * 1rem);
 }
 
 .col-3 {
