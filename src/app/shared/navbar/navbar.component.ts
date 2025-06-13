@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { PokemonCommunicationService } from '../../../service/pokemon-communication.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,8 @@ import { RouterLink } from '@angular/router';
 })
 export class NavbarComponent {
   commService = inject(PokemonCommunicationService);
+  authService = inject(AuthService);
+  router = inject(Router);
 
   randomPokemonImg() {
     this.commService.triggerRandomPokemon();
@@ -23,5 +26,10 @@ export class NavbarComponent {
     if (name && name.trim()) {
       this.commService.triggerSearchPokemon(name.trim());
     }
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['login']);
   }
 }

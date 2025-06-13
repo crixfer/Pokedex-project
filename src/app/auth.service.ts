@@ -4,8 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
+  private userKey = 'loggedInUser';
+
   authenticate(username: string, password: string): boolean {
     return username === 'Ash' && password === 'pikachu';
   }
-  constructor() {}
+
+  logout(): void {
+    localStorage.removeItem(this.userKey);
+  }
 }
