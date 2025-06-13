@@ -3,6 +3,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <svg
+      class="colored-pkb"
       routerLink="home"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -43,7 +44,6 @@
         stroke-width="1"
       ></path>
     </svg>
-    <a routerLink="home" class="navbar-brand fa-pokeball" href="#"> </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -72,29 +72,6 @@
             >¡Sorpréndeme!</a
           >
         </li> -->
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Actions
-          </a>
-          <ul class="dropdown-menu">
-            <!-- <li>
-              <a class="dropdown-item" href="#">Sorpréndeme!</a>
-            </li> -->
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="dropdown-item" href="#"
-                >Logout - <i class="fa-solid fa-right-from-bracket"></i
-              ></a>
-            </li>
-          </ul>
-        </li>
       </ul>
       <!-- FORM PARA BUSCAR POKEMONS -->
       <form
@@ -113,8 +90,14 @@
           placeholder="Buscar un Pokémon"
           aria-label="Search"
         />
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
+        <button class="btn btn-outline-success" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
       </form>
+
+      <button class="logout-btn btn btn-outline-dark">
+        <i class="logout-icon fa-solid fa-right-from-bracket"></i> Logout
+      </button>
     </div>
   </div>
 </nav>
