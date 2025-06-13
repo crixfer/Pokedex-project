@@ -1,0 +1,95 @@
+<div class="main-container">
+  <div class="wrapper">
+    <form class="container" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="card pokeball-container">
+        <img class="card-img-top" src="/assets/Pokeball-PNG.png" alt="" />
+
+        <div class="card-body mb-3">
+          <label for="exampleInputEmail1" class="form-label">Usuario:</label>
+          <input
+            placeholder="Ash"
+            type="text"
+            class="form-control"
+            id="username"
+            aria-describedby="emailHelp"
+            name="username"
+            [(ngModel)]="username"
+            required
+          />
+          <!-- <div id="emailHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div> -->
+
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label"
+              >Contraseña:</label
+            >
+            <input
+              placeholder="pikachu"
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              required
+            />
+          </div>
+          <div class="mb-3 form-check d-flex justify-content-between">
+            <div>
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >Recuérdame</label
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-warning"
+              [disabled]="!loginForm.valid"
+            >
+              <!-- ICONO POKEBOLA -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#000000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                id="Pokeball--Streamline-Tabler"
+                height="24"
+                width="24"
+              >
+                <desc>Pokeball Streamline Icon: https://streamlinehq.com</desc>
+                <path
+                  d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0 -18 0"
+                  stroke-width="2"
+                ></path>
+                <path
+                  d="M9 12a3 3 0 1 0 6 0 3 3 0 1 0 -6 0"
+                  stroke-width="2"
+                ></path>
+                <path d="M3 12h6" stroke-width="2"></path>
+                <path d="M15 12h6" stroke-width="2"></path>
+              </svg>
+              Iniciar Sesión
+            </button>
+          </div>
+          <div class="login-msj d-flex justify-content-start w100">
+            <p class="">
+              Mensaje:
+              <span [style.color]="messageColor">
+                <i>{{ loginMessage }}</i>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- ROUTER OUTLET -->
+<router-outlet></router-outlet>

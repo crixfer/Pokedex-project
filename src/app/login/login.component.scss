@@ -1,0 +1,40 @@
+.main-container {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 30rem;
+}
+
+.card {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.card-img-top {
+  background-color: aliceblue;
+}
+
+:host {
+  display: block;
+  min-height: 100vh;
+  position: relative;
+  background-image: url("/assets/pokemonBG.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: 0;
+}
+
+:host::before {
+  content: "";
+  position: absolute; // Cambiado de fixed a absolute
+  inset: 0;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.8); // O usa rgba(0,0,0,0.4) para oscurecer
+  pointer-events: none;
+}
