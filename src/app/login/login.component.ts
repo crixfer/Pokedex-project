@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet, Router } from '@angular/router';
@@ -18,6 +18,7 @@ export class LoginComponent {
 
   router = inject(Router);
   auth = inject(AuthService);
+  location = inject(Location);
 
   onSubmit() {
     if (this.auth.authenticate(this.username, this.password)) {
@@ -25,7 +26,8 @@ export class LoginComponent {
       this.loginMessage = 'Acceso Satisfactorio!';
       this.messageColor = 'green';
       setTimeout(() => {
-        this.router.navigate(['/home']); // Redirige al home
+        this.router.navigate(['/home'], { replaceUrl: true }); // Redirige al home
+        this.location.replaceState('/home');
       }, 1000);
     } else {
       this.loginMessage = 'Credenciales incorrectas!';

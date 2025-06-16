@@ -2,14 +2,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { PokeServiceService } from '../../../service/poke-service.service';
 import type { Pokemon } from '../../../interfaces/interface';
 import { PokemonCommunicationService } from '../../../service/pokemon-communication.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
+  styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
   pokemons: Pokemon[] = [];
@@ -83,12 +83,20 @@ export class CardComponent implements OnInit {
     this.loading = false;
   }
 
+  getBestSprite(poke: Pokemon): string {
+    return (
+      poke.sprites.other?.['official-artwork']?.front_default ||
+      poke.sprites.other?.dream_world?.front_default ||
+      poke.sprites.front_default
+    );
+  }
+
   loadMore(): void {
     this.page++;
     this.loadPokemons();
   }
 
-  //RANDOM
+  //RANDOM Animated
 
   randomPokemons(): void {
     this.showOrdered = false;
@@ -152,6 +160,7 @@ export class CardComponent implements OnInit {
     this.loadPokemonsByType(type.name);
   }
 
+  //CARGA POR
   loadPokemonsByType(typeName: string) {
     this.loading = true;
     this.pokemonService.getPokemonsByType(typeName).subscribe((res: any) => {
@@ -226,5 +235,12 @@ export class CardComponent implements OnInit {
         // Aquí puedes mostrar un mensaje de "Pokémon no encontrado"
       },
     });
+  }
+
+  /**
+   * Navigate to the detail view for the selected Pokémon.
+   */
+  viewDetails(pokemon: Pokemon): void {
+    this.router.navigate(['/detail', pokemon.id]);
   }
 }

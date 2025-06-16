@@ -1,14 +1,16 @@
 <!--* CARDS -->
 
 <!-- CONDITION FOR RANDOM CARD-->
-@if (pokemons.length === 1) {
-<div class="d-flex justify-content-center">
-  <div class="mt-5">
-    <div class="card card-random m-5">
+@if (pokemons.length === 1 && pokemons[0]) {
+<!-- Added null check for pokemons[0] -->
+<div class="d-flex justify-content-center flex-column">
+  <div class="random-row mt-5">
+    <!-- Make the entire random card clickable -->
+    <div class="card card-random m-5" (click)="viewDetails(pokemons[0])">
       <img
         [src]="
-          pokemons[0]?.sprites?.versions?.['generation-v']?.['black-white']?.animated
-            ?.front_default || pokemons[0]?.sprites?.front_default
+          pokemons[0].sprites.versions?.['generation-v']?.['black-white']?.animated?.front_default ||
+          pokemons[0].sprites.front_default
         "
         class="card-img-top2"
         alt="{{ pokemons[0].name }}"
@@ -27,8 +29,28 @@
       </div>
     </div>
   </div>
+
+  <!-- Botones para random y volver a home -->
+  <div class="flex-column">
+    <div class="text-center mt-4">
+      <button
+        (click)="randomPokemonImg()"
+        class="btn btn-info btn-lg random-btn-container"
+      >
+        Más random
+      </button>
+    </div>
+    <div class="text-center mt-3 mb-5">
+      <button
+        routerLink="/home"
+        class="btn btn-secondary btn-lg random-btn-container"
+      >
+        Volver al inicio
+      </button>
+    </div>
+  </div>
 </div>
-} @else{
+} @else {
 
 <!-- BOTONES -->
 <div class="d-flex justify-content-evenly flex-wrap">
@@ -82,7 +104,7 @@
     class="botones btn btn-secondary btn-lg mt-5"
     (click)="toggleTypeMenu()"
   >
-    Tipos de Pokémons
+    <i class="fa-solid fa-list"></i> Tipos de Pokémons
   </button>
 </div>
 
@@ -96,6 +118,7 @@
   <div class="type-menu-content">
     <h3>Selecciona un tipo de Pokémon</h3>
     <div class="type-list">
+      <!-- FOR PARA LOS BOTONES -->
       @for (type of pokemonTypes; track $index) {
       <ng-container>
         @if (type.name !== 'stellar' && type.name !== 'unknown') {
@@ -110,153 +133,50 @@
   </div>
 </div>
 }
-<!-- CARTAS -->
+<!-- CARTAS - Use CSS Grid for even distribution -->
 
-<div class="d-flex justify-content-center">
-  <div class="row">
-    @for (poke of pokemons; track $index) {
-    <ng-container>
-      <div class="mt-3">
-        <div class="card">
-          <img
-            [src]="
-              poke.sprites?.versions?.['generation-v']?.['black-white']?.animated
-                ?.front_default || poke.sprites?.front_default
-            "
-            class="card-img-top"
-            alt="{{ poke.name }}"
-          />
-          <div class="card-body">
-            <h4 class="card-title">{{ poke.name }}</h4>
-            <p class="card-text">{{ poke.description }}</p>
-            <div>
-              @for (type of poke.types; track $index) {
-              <span class="badge me-1" [ngClass]="'bg-' + type.type.name">
-                {{ type.type.name }}
-              </span>
-              }
-            </div>
-          </div>
-        </div>
+<div class="cards-container">
+  @for (pokemon of pokemons; track pokemon.id) {
+  <div (click)="viewDetails(pokemon)">
+    <div class="card h-100 shadow-sm">
+      <div class="card-img-container">
+        <img
+          [src]="getBestSprite(pokemon)"
+          class="card-img-top p-2"
+          alt="{{ pokemon.name }}"
+        />
       </div>
-    </ng-container>
-    }
+      <div class="card-body">
+        <h5 class="card-title text-capitalize fw-bold">{{ pokemon.name }}</h5>
+        <p class="card-id text-muted">
+          #{{ pokemon.id.toString().padStart(3, "0") }}
+        </p>
+        <div class="type-badges">
+          @for (type of pokemon.types; track $index) {
+          <span class="badge me-1" [ngClass]="'bg-' + type.type.name">
+            {{ type.type.name | titlecase }}
+          </span>
+          }
+        </div>
+        <!-- Removed the explicit 'Ver Detalles' button -->
+      </div>
+    </div>
   </div>
-</div>
-}
-
-<!-- Button to load more -->
-<div class="d-flex justify-content-center">
-  @if (showOrdered) {
-  <button class="btn btn-warning m-5" (click)="loadMore()" [disabled]="loading">
-    <!-- <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#000000"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      id="Pokeball--Streamline-Tabler"
-      height="24"
-      width="24"
-    >
-      <desc>Pokeball Streamline Icon: https://streamlinehq.com</desc>
-      <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0 -18 0" stroke-width="2"></path>
-      <path d="M9 12a3 3 0 1 0 6 0 3 3 0 1 0 -6 0" stroke-width="2"></path>
-      <path d="M3 12h6" stroke-width="2"></path>
-      <path d="M15 12h6" stroke-width="2"></path>
-    </svg> -->
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 48 48"
-      id="Pokeball--Streamline-Kameleon"
-      height="48"
-      width="48"
-    >
-      <desc>Pokeball Streamline Icon: https://streamlinehq.com</desc>
-      <path
-        fill="#fabc3d"
-        d="M24 47.9977c13.255 0 24 -10.7445 24 -23.9988C48 10.7445 37.255 0 24 0S0 10.7445 0 23.9989c0 13.2543 10.745 23.9988 24 23.9988Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#ffffff"
-        d="M23.9998 37.9621c7.7118 0 13.9636 -6.2515 13.9636 -13.963 0 -7.7115 -6.2518 -13.963 -13.9636 -13.963 -7.7119 0 -13.9637 6.2515 -13.9637 13.963 0 7.7115 6.2518 13.963 13.9637 13.963Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#df2c2c"
-        d="M23.9998 10.0361c-7.7119 0 -13.9637 6.2515 -13.9637 13.963h27.9273c0 -7.7115 -6.2518 -13.963 -13.9636 -13.963Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#fa5655"
-        d="M23.9998 10.0361c-7.7119 0 -13.9637 6.2515 -13.9637 13.963h13.9637v-13.963Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#3e3e3f"
-        d="M23.9998 18.7632c-2.2792 0 -4.2127 1.4582 -4.9318 3.4907h-8.9193c-0.0737 0.5789 -0.1113 1.1618 -0.1126 1.7454 0 0.5917 0.0411 1.1733 0.1126 1.7454h8.9193c0.7196 2.0325 2.6531 3.4907 4.9318 3.4907s4.2126 -1.4582 4.9318 -3.4907h8.9192c0.0716 -0.5721 0.1126 -1.1537 0.1126 -1.7454 0 -0.5917 -0.041 -1.1733 -0.1126 -1.7454h-8.9192c-0.7192 -2.0325 -2.6527 -3.4907 -4.9318 -3.4907Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#ffffff"
-        d="M24 26.6165c0.6944 0 1.3603 -0.2758 1.8514 -0.7668 0.491 -0.491 0.7668 -1.1569 0.7668 -1.8513 0 -0.6943 -0.2758 -1.3602 -0.7668 -1.8512 -0.4911 -0.491 -1.157 -0.7668 -1.8514 -0.7668 -0.6944 0 -1.3603 0.2758 -1.8513 0.7668 -0.491 0.491 -0.7669 1.1569 -0.7669 1.8512 0 0.6944 0.2759 1.3603 0.7669 1.8513 0.491 0.491 1.1569 0.7668 1.8513 0.7668Z"
-        stroke-width="1"
-      ></path>
-    </svg>
-    <span class="me-sm-3">
-      {{ loading ? "Cargando..." : "Ver más" }}
-    </span>
-  </button>
-  } @if (!showOrdered) {
-  <button
-    class="btn btn-warning mb-5 mt-5"
-    (click)="moreRandomPokemons()"
-    [disabled]="loading"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 48 48"
-      id="Pokeball--Streamline-Kameleon"
-      height="48"
-      width="48"
-    >
-      <desc>Pokeball Streamline Icon: https://streamlinehq.com</desc>
-      <path
-        fill="#fabc3d"
-        d="M24 47.9977c13.255 0 24 -10.7445 24 -23.9988C48 10.7445 37.255 0 24 0S0 10.7445 0 23.9989c0 13.2543 10.745 23.9988 24 23.9988Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#ffffff"
-        d="M23.9998 37.9621c7.7118 0 13.9636 -6.2515 13.9636 -13.963 0 -7.7115 -6.2518 -13.963 -13.9636 -13.963 -7.7119 0 -13.9637 6.2515 -13.9637 13.963 0 7.7115 6.2518 13.963 13.9637 13.963Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#df2c2c"
-        d="M23.9998 10.0361c-7.7119 0 -13.9637 6.2515 -13.9637 13.963h27.9273c0 -7.7115 -6.2518 -13.963 -13.9636 -13.963Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#fa5655"
-        d="M23.9998 10.0361c-7.7119 0 -13.9637 6.2515 -13.9637 13.963h13.9637v-13.963Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#3e3e3f"
-        d="M23.9998 18.7632c-2.2792 0 -4.2127 1.4582 -4.9318 3.4907h-8.9193c-0.0737 0.5789 -0.1113 1.1618 -0.1126 1.7454 0 0.5917 0.0411 1.1733 0.1126 1.7454h8.9193c0.7196 2.0325 2.6531 3.4907 4.9318 3.4907s4.2126 -1.4582 4.9318 -3.4907h8.9192c0.0716 -0.5721 0.1126 -1.1537 0.1126 -1.7454 0 -0.5917 -0.041 -1.1733 -0.1126 -1.7454h-8.9192c-0.7192 -2.0325 -2.6527 -3.4907 -4.9318 -3.4907Z"
-        stroke-width="1"
-      ></path>
-      <path
-        fill="#ffffff"
-        d="M24 26.6165c0.6944 0 1.3603 -0.2758 1.8514 -0.7668 0.491 -0.491 0.7668 -1.1569 0.7668 -1.8513 0 -0.6943 -0.2758 -1.3602 -0.7668 -1.8512 -0.4911 -0.491 -1.157 -0.7668 -1.8514 -0.7668 -0.6944 0 -1.3603 0.2758 -1.8513 0.7668 -0.491 0.491 -0.7669 1.1569 -0.7669 1.8512 0 0.6944 0.2759 1.3603 0.7669 1.8513 0.491 0.491 1.1569 0.7668 1.8513 0.7668Z"
-        stroke-width="1"
-      ></path>
-    </svg>
-    Más Pokémons
-  </button>
   }
 </div>
+<!-- BOTONES CARGAR MÁS -->
+@if (showOrdered && !loading && pokemons.length > 0 && !selectedType) {
+<div class="text-center mt-4 mb-5">
+  <button (click)="loadMore()" class="btn btn-success btn-lg">
+    Cargar más Pokémon
+  </button>
+</div>
+} @if (selectedType && !loading && pokemons.length > 0) {
+<div class="text-center mt-4 mb-5">
+  <button (click)="loadMore()" class="btn btn-success btn-lg">
+    Más de tipo {{ selectedType }}
+  </button>
+</div>
+}
+<!-- This is the div that was previously wrapping the cards and buttons -->
+}

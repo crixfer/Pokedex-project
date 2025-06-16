@@ -3,6 +3,8 @@
 export interface Pokemon {
   name: string;
   id: number;
+  height: number; // Added height
+  weight: number; // Added weight
 
   //image
   sprites: PokemonSprites;
@@ -18,8 +20,16 @@ export interface Pokemon {
       name: string;
     };
   }[];
+  //stats // Added stats
+  stats: {
+    base_stat: number;
+    stat: {
+      name: string;
+    };
+  }[];
   //information
   description: string;
+  routes: string;
 }
 
 export interface PokemonSprites {
@@ -33,5 +43,14 @@ export interface PokemonSprites {
       };
     };
     // Si quieres otras generaciones, añádelas aquí
+  };
+  other?: {
+    // <— agrega esto
+    'official-artwork'?: {
+      front_default: string;
+    };
+    dream_world?: {
+      front_default: string;
+    };
   };
 }

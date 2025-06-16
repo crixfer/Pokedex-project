@@ -1,0 +1,108 @@
+<!--* CARD DETAILS -->
+
+<!--? HEADER -->
+<app-navbar></app-navbar>
+
+<!-- SPINNER -->
+@if (loading) {
+<div class="text-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
+}
+
+<!-- CARTA DE ESTADISTICAS -->
+@if (!loading && pokemon) {
+<div class="pokemon-detail-container container mt-5">
+  <div class="card shadow-lg">
+    <div class="row g-0">
+      <div
+        class="pokemon-image col-md-4 d-flex align-items-center justify-content-center p-3"
+      >
+        <img
+          [src]="getBestSprite()"
+          [alt]="pokemon.name"
+          class="img-fluid rounded"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h1 class="card-title text-capitalize fw-bold">{{ pokemon.name }}</h1>
+          <p class="card-id text-muted">
+            #{{ pokemon.id.toString().padStart(3, "0") }}
+          </p>
+
+          <div class="mb-3">
+            <h5 class="fw-bold">Descripción:</h5>
+            <p class="card-text">
+              {{
+                pokemon.description ||
+                  "No hay descripción disponible en español."
+              }}
+            </p>
+          </div>
+
+          <div class="mb-3">
+            <h5 class="fw-bold">Tipos:</h5>
+            @for (typeInfo of pokemon.types; track $index) {
+            <span class="badge me-1" [ngClass]="'bg-' + typeInfo.type.name">
+              {{ typeInfo.type.name | titlecase }}
+            </span>
+            }
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <h5 class="fw-bold">Altura:</h5>
+              <p>{{ pokemon.height / 10 }} m</p>
+            </div>
+            <div class="col-md-6">
+              <h5 class="fw-bold">Peso:</h5>
+              <p>{{ pokemon.weight / 10 }} kg</p>
+            </div>
+          </div>
+
+          <h5 class="fw-bold">Estadísticas Base:</h5>
+          @for (stat of pokemon.stats; track $index) {
+          <div class="mb-2">
+            <span class="text-capitalize"
+              >{{ stat.stat.name }}: {{ stat.base_stat }}</span
+            >
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                [style.width]="stat.base_stat + '%'"
+                [attr.aria-valuenow]="stat.base_stat"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center mt-5 mb-5">
+    <button
+      routerLink="/home"
+      class="btn btn-secondary btn-lg random-btn-container"
+    >
+      Volver al inicio
+    </button>
+  </div>
+</div>
+
+}
+<!-- ERROR -->
+@if (!loading && !pokemon) {
+<div class="text-center my-5">
+  <h2 class="text-danger">No se pudo cargar la información del Pokémon.</h2>
+  <p>
+    Por favor, intenta de nuevo o regresa al
+    <a routerLink="/home">inicio</a>.
+  </p>
+</div>
+}
