@@ -37,7 +37,7 @@
         (click)="randomPokemonImg()"
         class="btn btn-info btn-lg random-btn-container"
       >
-        Más random
+        <i class="fa-solid fa-dice"></i> Más random
       </button>
     </div>
     <div class="text-center mt-3 mb-5">
@@ -45,7 +45,7 @@
         routerLink="/home"
         class="btn btn-secondary btn-lg random-btn-container"
       >
-        Volver al inicio
+        <i class="fa-solid fa-house"></i> Volver a inicio
       </button>
     </div>
   </div>
@@ -53,7 +53,7 @@
 } @else {
 
 <!-- BOTONES -->
-<div class="d-flex justify-content-evenly flex-wrap">
+<div class="d-flex justify-content-evenly flex-wrap mb-4">
   <button
     (click)="randomPokemonImg()"
     type="button"
@@ -166,15 +166,15 @@
 </div>
 <!-- BOTONES CARGAR MÁS -->
 @if (showOrdered && !loading && pokemons.length > 0 && !selectedType) {
-<div class="text-center mt-4 mb-5">
-  <button (click)="loadMore()" class="btn btn-success btn-lg">
-    Cargar más Pokémon
+<div class="text-center mt-4">
+  <button (click)="loadMore()" class="btn btn-warning btn-lg mb-5 botones">
+    <i class="fa-solid fa-spinner"></i> Cargar más Pokémons
   </button>
 </div>
 } @if (selectedType && !loading && pokemons.length > 0) {
-<div class="text-center mt-4 mb-5">
-  <button (click)="loadMore()" class="btn btn-success btn-lg">
-    Más de tipo {{ selectedType }}
+<div class="text-center mt-4">
+  <button (click)="loadMore()" class="btn btn-warning btn-lg mb-5">
+    <i class="fa-solid fa-spinner"></i> Más de tipo {{ selectedType }}
   </button>
 </div>
 }
