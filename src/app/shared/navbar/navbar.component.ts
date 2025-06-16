@@ -30,6 +30,7 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
+    localStorage.removeItem('user');
     this.router.navigate(['/']);
   }
 }
