@@ -25,6 +25,8 @@ export class NavbarComponent {
   onSearch(name: string) {
     if (name && name.trim()) {
       this.commService.triggerSearchPokemon(name.trim());
+      // Navigate back to home to display search results
+      // this.router.navigate(['/home']);
     }
   }
 

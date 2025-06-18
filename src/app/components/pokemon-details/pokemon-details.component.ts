@@ -4,13 +4,14 @@ import { switchMap, map } from 'rxjs/operators';
 import { PokeServiceService } from '../../../service/poke-service.service';
 import type { Pokemon } from '../../../interfaces/interface';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
+
+import { PokemonCommunicationService } from '../../../service/pokemon-communication.service';
 
 @Component({
   selector: 'app-pokemon-details',
+  imports: [CommonModule, RouterLink],
   templateUrl: './pokemon-details.component.html',
-  styleUrl: './pokemon-details.component.scss',
-  imports: [CommonModule, NavbarComponent, RouterLink],
+  styleUrls: ['./pokemon-details.component.scss'],
 })
 export class PokemonDetailsComponent implements OnInit {
   pokemon: Pokemon | null = null;
@@ -18,6 +19,7 @@ export class PokemonDetailsComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
   private pokemonService = inject(PokeServiceService);
+  private commService = inject(PokemonCommunicationService);
 
   ngOnInit(): void {
     const idOrName = this.route.snapshot.paramMap.get('id');
@@ -61,5 +63,17 @@ export class PokemonDetailsComponent implements OnInit {
       poke.sprites.front_default ??
       ''
     );
+  }
+
+  getPokemonTypes(pokemon: Pokemon): string {
+    return pokemon?.types?.map((t) => t.type.name).join(', ') ?? '';
+  }
+
+  onSearch(name: string) {
+    if (name && name.trim()) {
+      this.commService.triggerSearchPokemon(name.trim());
+      // Navigate back to home to display search results
+      // this.router.navigate(['/home']);
+    }
   }
 }
