@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, filter, tap } from 'rxjs/operators';
 import { PokeServiceService } from '../../../service/poke-service.service';
 import type { Pokemon } from '../../../interfaces/interface';
 import { CommonModule } from '@angular/common';
@@ -22,25 +22,28 @@ export class PokemonDetailsComponent implements OnInit {
   private commService = inject(PokemonCommunicationService);
 
   ngOnInit(): void {
-    const idOrName = this.route.snapshot.paramMap.get('id');
-    if (!idOrName) {
-      this.loading = false;
-      return;
-    }
-
-    this.pokemonService
-      .getPokemonInfo(idOrName)
+    // React to route parameter changes for 'id' (enables search from detail view)
+    this.route.paramMap
       .pipe(
-        switchMap((poke) =>
-          this.pokemonService.getPokemonSpecies(poke.id).pipe(
-            map((species) => {
-              const entry = species.flavor_text_entries.find(
-                (e: { language: { name: string }; flavor_text: string }) =>
-                  e.language.name === 'es'
-              );
-              (poke as any).description = entry?.flavor_text ?? '';
-              return poke;
-            })
+        map((params) => params.get('id')),
+        filter((idOrName): idOrName is string => !!idOrName),
+        tap(() => {
+          this.loading = true;
+          this.pokemon = null;
+        }),
+        switchMap((idOrName) =>
+          this.pokemonService.getPokemonInfo(idOrName).pipe(
+            switchMap((poke) =>
+              this.pokemonService.getPokemonSpecies(poke.id).pipe(
+                map((species) => {
+                  const entry = species.flavor_text_entries.find(
+                    (e: any) => e.language.name === 'es'
+                  );
+                  (poke as any).description = entry?.flavor_text ?? '';
+                  return poke;
+                })
+              )
+            )
           )
         )
       )

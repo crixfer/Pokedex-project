@@ -2,14 +2,17 @@ import { Component, inject } from '@angular/core';
 import { PokemonCommunicationService } from '../../../service/pokemon-communication.service';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../auth.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [RouterLink, NgIf],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
+  message: string = '';
+
   private commService = inject(PokemonCommunicationService);
   private router = inject(Router);
   private authService = inject(AuthService);
@@ -23,11 +26,13 @@ export class NavbarComponent {
   }
 
   onSearch(name: string) {
-    if (name && name.trim()) {
-      this.commService.triggerSearchPokemon(name.trim());
-      // Navigate back to home to display search results
-      // this.router.navigate(['/home']);
+    const term = name.trim();
+    if (!term) {
+      this.message = 'Ingresa el nombre de un Pokémon';
+      return;
     }
+    this.message = '';
+    this.router.navigate(['/detail', term.toLowerCase()]);
   }
 
   logout() {

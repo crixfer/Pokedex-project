@@ -5,7 +5,7 @@ import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CardComponent, NavbarComponent, FooterComponent],
+  imports: [CardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

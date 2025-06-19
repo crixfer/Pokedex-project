@@ -1,14 +1,16 @@
 <!--* APP COMPONENT -->
-<!--? NAVBAR -->
+<!-- NAVBAR -->
+@if (showNavbar) {
 <app-navbar></app-navbar>
+}
 
-<!--? HOME -->
+<!-- ROUTER OUTLET -->
 <router-outlet></router-outlet>
 
 <!-- SCROLL UP -->
 @if (showScrollTop) {
 <button
-  class="btn btn-primary scroll-to-top mb-5"
+  class="btn btn-primary scroll-to-top"
   (click)="scrollToTop()"
   title="Subir al comienzo"
 >
@@ -16,5 +18,7 @@
 </button>
 }
 
-<!--? FOOTER -->
+<!-- FOOTER -->
+@if (showFooter) {
 <app-footer></app-footer>
+}

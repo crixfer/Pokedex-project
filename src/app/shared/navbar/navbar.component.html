@@ -2,6 +2,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
+    <!-- POKEBALL ICON -->
     <svg
       class="colored-pkb"
       routerLink="/home"
@@ -65,9 +66,15 @@
           >
         </li>
       </ul>
+
+      <!-- Mostrar mensaje de error si no se ingresó texto -->
+      <div *ngIf="message" class="text-danger me-2">
+        <i> {{ message }}</i>
+      </div>
+
       <!-- FORM PARA BUSCAR POKEMONS -->
       <form
-        class="d-flex"
+        class="d-flex align-items-center"
         role="search"
         (submit)="
           onSearch(searchInput.value);
@@ -82,7 +89,7 @@
           placeholder="Buscar un Pokémon"
           aria-label="Search"
         />
-        <button class="btn btn-outline-success" type="submit">
+        <button class="btn btn-outline-success me-2" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
